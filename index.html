@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HR Virtual Assistant</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <!-- This styling is for the Web Chat demonstration purposes. It is recommended that style is moved to separate file for organization in larger projects -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+    crossorigin="anonymous"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+    crossorigin="anonymous"></script>
+  <style type="text/css">
+    html,
+    body {
+      background-color: #F1F0F0;
+      height: 100%;
+
+    }
+
+    .css-eycyw2 {
+      background-color: #FAF9F8;
+    }
+
+    .main {
+      background-color: #F1F0F0;
+      margin: 15px;
+    }
+
+    .css-eycyw2 .main {
+      border-top: none;
+    }
+
+    .css-1vieo9r {
+      background-color: #F1F0F0;
+    }
+
+    .css-o3xlyv {
+      background-color: #F1F0F0;
+      font-family: Segoe UI;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .from-user .css-o3xlyv {
+      color: #F1F0F0;
+      background-color: #1a4e80;
+    }
+
+
+
+    html,
+    html body,
+    html body.globalBackground,
+    .globalBackground {
+      background-attachment: scroll;
+      background-color: #1a4e80;
+      background-repeat: repeat-x;
+      background-position: 0 0;
+      background-image: url(https://askhr.test.slb.com/pva/blue_crystal_landing_bg.png);
+      background-size: auto;
+      margin: 0;
+    }
+
+    #chatwindow {
+      border-radius: 4px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      height: calc(100% - 50px);
+      left: 10px;
+      overflow: hidden;
+      position: fixed;
+      top: 10px;
+      width: 560px;
+    }
+
+
+    #heading {
+      background-color: #1a4e80;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      height: 48px;
+      left: 10px;
+      right: 10px;
+      overflow: hidden;
+      position: fixed;
+      top: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+
+
+    h1 {
+      /* This is a single-line comment */
+      display: table-cell;
+      vertical-align: middle;
+      padding: 11px 0px 0px 11px;
+      color: #fff;
+      font: 400 17px Arial;
+      letter-spacing: normal;
+      word-spacing: normal;
+      text-transform: none;
+      text-indent: 0px;
+      text-align: center;
+      text-shadow: 0 0 0.125rem #000;
+    }
+
+    #webchat {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      height: calc(100% - 70px);
+      left: 10px;
+      right: 10px;
+      overflow: hidden;
+      position: fixed;
+      top: 60px;
+      max-width: 500px;
+      margin: auto;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div>
+    <div id="heading">
+      <!-- Change the h1 text to change the bot name -->
+      <h1>HR Virtual Assistant - Please allow few seconds to load !!</h1>
+      <a href='mailto:askhr@slb.com?subject=Hudson_HRVirtualAssistant_support' alt='Help' title='Help'><img align=right
+          style="vertical-align:top;margin:-20px 66px;width:30px;height:30px"" src=" icons8-question-mark-48.png" /></a>
+      <a href='javascript:location.reload();' alt='Refresh' title='Refresh'><img align=right
+          style="vertical-align:top;margin:-20px 38px;width:30px;height:30px"" src=" refresh.png" /></a>
+      <a href='Hudson_data_privacy.htm' alt='Data privacy statement' title='Data privacy statement'><img align=right
+          style="vertical-align:top;margin:-20px 4px"" src=" data-protection_white.png" /></a>
+    </div>
+    <div id="webchat" role="main"> </div>
+  </div>
+
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+
+  <script>
+    const styleOptions = {
+      botAvatarImage: 'https://askhr.test.slb.com/pva/Kal.png',
+      backgroundColor: '#FAF9F8',
+      suggestedActionBackground: 'White',
+      bubbleBackground: 'rgba(255, 200, 200, 0.2)',
+      bubbleFromUserBackground: 'rgba(0, 255, 0, 0.2)',
+      primaryFont: 'Calibri',
+      botAvatarBackgroundColor: 'orange',
+      accent: '#0063B1',
+      backgroundColor: 'White',
+      cardEmphasisBackgroundColor: '#F0F0F0',
+      paddingRegular: 10,
+      paddingWide: 10 * 2,
+      subtle: '#767676',
+      bubbleMaxWidth: 480,
+      bubbleMinHeight: 40,
+      bubbleMinWidth: 250,
+      bubbleNubOffset: 'bottom',
+      bubbleNubSize: 0,
+      bubbleTextColor: 'Black',
+      bubbleBorderRadius: 9,
+      bubbleFromUserBorderRadius: 9,
+      suggestedActionBackground: 'rgba(255, 255, 255, 0.2)',
+      suggestedActionHeight: 40,
+      suggestedActionDisabledBorderColor: '#E6E6E6',
+      sendBoxTextWrap: true,
+      hideUploadButton: false
+    };
+
+    // Add your BOT ID below 
+    var BOT_ID = "6a9f2f3b-af94-4019-b64d-1bdabc6f820d";
+    var theURL = "https://powerva.microsoft.com/api/botmanagement/v1/directline/directlinetoken?botId=" + BOT_ID;
+    var currentURL = window.location.href;
+
+    const getQueryParams = (url) => {
+      let queryParams = {};
+      //create an anchor tag to use the property called search
+      let anchor = document.createElement('a');
+      //assigning url to href of anchor tag
+      anchor.href = url;
+      //search property returns the query string of url
+      let queryStrings = anchor.search.substring(1);
+      let params = queryStrings.split('&');
+
+      for (var i = 0; i < params.length; i++) {
+        var pair = params[i].split('=');
+        queryParams[pair[0]] = decodeURIComponent(pair[1]);
+      }
+      return queryParams;
+    };
+
+    let params = getQueryParams('currentURL');
+    let surveyIDParam = '';
+
+    if (params && params.length > 0 && params['surveyID']) {
+      surveyIDParam = params["surveyID"];
+      alert(surveyIDParam);
+    }
+
+	
+
+    // Triggers bot with initial message, in order to have greeting message render on load.
+    const store = WebChat.createStore({}, ({ dispatch }) => next => action => {
+      const { type } = action;
+      if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+        dispatch({
+          type: 'WEB_CHAT/SEND_EVENT',
+          payload: {
+            name: 'startConversation',
+            type: 'event',
+            value: {
+              text: "hello",
+              surveyID:surveyIDParam
+            },
+          }
+        });
+      }
+      return next(action);
+    });
+
+    fetch(theURL)
+      .then(response => response.json())
+      .then(conversationInfo => {
+        window.WebChat.renderWebChat(
+          {
+            directLine: window.WebChat.createDirectLine({
+              token: conversationInfo.token,
+
+            }),
+            store,
+            styleOptions
+          },
+          document.getElementById('webchat')
+        );
+      })
+      .catch(err => console.error("An error occurred: " + err));
+
+    setTimeout(() => { document.getElementsByTagName('h1')[0].innerHTML = "HR Virtual Assistant"; }, 5000);
+
+  </script>
+
+
+</body>
+
+</html>
